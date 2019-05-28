@@ -46,6 +46,44 @@
   margin: 0 0 1em;
 }
 
+.app {
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+
+  top: calc(50% - 20px);
+
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+
+  cursor: pointer;
+  z-index: 1;
+
+  transition: opacity 0.2s;
+
+  &--left {
+    left: 5px;
+    border-right: 10px solid #ffffff;
+  }
+
+  &--right {
+    right: 5px;
+    border-left: 10px solid #ffffff;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:active {
+    opacity: 0.3;
+  }
+}
+
 @import "--level/main--level";
 @import "--result/main--result";
 @import "--welcome/main--welcome";
