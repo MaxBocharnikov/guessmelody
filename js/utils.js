@@ -1,0 +1,11 @@
+export const render = (template) => {
+  const wrapper = document.createElement(`div`);
+  wrapper.innerHTML = template.trim();
+  return wrapper;
+};
+
+const main = document.querySelector(`.main`);
+
+export function showDisplay(index) {
+  main.appendChild(displays[index]);
+}
