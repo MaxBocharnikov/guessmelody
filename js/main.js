@@ -1,65 +1,82 @@
-(function () {
-  const main = document.querySelector(`.main`);
-  const templates = document.querySelector(`#templates`).content.querySelectorAll(`.main`);
-  const displays = [];
-  templates.forEach((template) => displays.push(template.cloneNode(true)));
+import {randomNumber, changeScreen} from "./utils";
+import welcome from "./welcome";
+import gameGenre from "./game-genre";
+import gameArtist from "./game-artist";
+import resultSuccess from "./result-success";
+import failTime from "./fail-time";
+import failTries from "./fail-tries";
 
-  const arrows = document.querySelectorAll(`.arrow`);
-
-  const Codes = {
-    leftArrow: 37,
-    rightArrow: 39
-  };
-  let currentDisplay = 0;
-
-  showDisplay(0);
-
-
-  function removeAllChilds(parentElement) {
-    while (parentElement.firstChild) {
-      parentElement.removeChild(parentElement.firstChild);
-    }
-  }
-  function showDisplay(index) {
-    removeAllChilds(main);
-    main.appendChild(displays[index]);
+const answerChecker = function () {
+  const submit = document.querySelector(`button[type=submit]`);
+  const answers = document.querySelectorAll(`input[type=checkbox]:checked`);
+  if (answers.length > 0) {
+    submit.removeAttribute(`disabled`);
+  } else {
+    submit.setAttribute(`disabled`, `disabled`);
   }
 
-  function incrementDisplay() {
-    if (currentDisplay === 5) {
-      currentDisplay = 0;
-    } else {
-      currentDisplay++;
-    }
-  }
+};
 
-  function dicrementDisplay() {
-    if (currentDisplay === 0) {
-      currentDisplay = 5;
-    } else {
-      currentDisplay--;
-    }
-  }
+const welcomeHandler = () => {
+  const play = document.querySelector(`.main-play`);
+  play.addEventListener(`click`, function () {
+    changeScreen(gameGenre);
+    gameGenreHandler();
+  });
+};
 
-  window.addEventListener(`keydown`, function (e) {
-    if (e.keyCode === Codes.leftArrow) {
-      dicrementDisplay();
-    } else if (e.keyCode === Codes.rightArrow) {
-      incrementDisplay();
+const resetAllCheckboxes = () => {
+  const checkboxes = document.querySelectorAll(`input[type=checkbox]`);
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      checkbox.checked = false;
     }
-    showDisplay(currentDisplay);
+  });
+};
+
+const gameGenreHandler = () => {
+  const form = document.querySelector(`.genre`);
+  const submit = document.querySelector(`.genre-answer-send`);
+
+  form.addEventListener(`change`, () => {
+    answerChecker();
   });
 
-  arrows.forEach((arrow, index) => {
-    arrow.addEventListener(`click`, function (e) {
-      e.preventDefault();
-      if (index === 0) { // Если левая стрелка
-        dicrementDisplay();
-      } else { // Есди правая стрелка
-        incrementDisplay();
+  submit.addEventListener(`click`, function () {
+    changeScreen(gameArtist);
+    gameArtistHandler();
+  });
+
+};
+
+const gameArtistHandler = () => {
+  const answers = document.querySelectorAll(`input[type=radio]`);
+  answers.forEach((answer) => {
+    answer.addEventListener(`click`, () => {
+      const random = randomNumber(1, 3);
+      switch (random) {
+        case 1:
+          changeScreen(resultSuccess);
+          break;
+        case 2:
+          changeScreen(failTime);
+          break;
+        case 3:
+          changeScreen(failTries);
+          break;
       }
-      showDisplay(currentDisplay);
+      finishPageHandler();
     });
   });
+};
 
-})();
+const finishPageHandler = () => {
+  const replyGame = document.querySelector(`.main-replay`);
+  replyGame.addEventListener(`click`, () => {
+    changeScreen(gameGenre);
+    resetAllCheckboxes();
+  });
+};
+
+changeScreen(welcome);
+welcomeHandler();

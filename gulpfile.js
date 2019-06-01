@@ -2,6 +2,7 @@
 
 const del = require('del');
 const gulp = require('gulp');
+const rollup = require(`gulp-better-rollup`);
 const sass = require('gulp-sass');
 const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
@@ -11,6 +12,8 @@ const mqpacker = require('css-mqpacker');
 const minify = require('gulp-csso');
 const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
+
+const sourcemaps = require(`gulp-sourcemaps`);
 
 gulp.task('style', function () {
   return gulp.src('sass/style.scss')
@@ -36,10 +39,14 @@ gulp.task('style', function () {
 });
 
 gulp.task('scripts', function () {
-  return gulp.src('js/**/*.js')
+  return gulp.src(`js/main.js`)
     .pipe(plumber())
-    .pipe(gulp.dest('build/js/'));
+    .pipe(sourcemaps.init())
+    .pipe(rollup({}, `iife`))
+    .pipe(sourcemaps.write(``))
+    .pipe(gulp.dest(`build/js`));
 });
+
 
 gulp.task('test', function () {
 });
@@ -67,6 +74,7 @@ gulp.task('copy', ['copy-html', 'scripts', 'style'], function () {
   ], {base: '.'})
     .pipe(gulp.dest('build'));
 });
+
 
 gulp.task('clean', function () {
   return del('build');
