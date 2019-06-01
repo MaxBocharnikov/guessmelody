@@ -50,7 +50,7 @@
   position: relative;
 }
 
-.arrow {
+/*.arrow {
   position: absolute;
   width: 0;
   height: 0;
@@ -82,7 +82,7 @@
   &:active {
     opacity: 0.3;
   }
-}
+}*/
 
 @import "--level/main--level";
 @import "--result/main--result";

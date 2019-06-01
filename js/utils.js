@@ -6,6 +6,7 @@ export const render = (template) => {
 
 const main = document.querySelector(`.main`);
 
-export function showDisplay(index) {
-  main.appendChild(displays[index]);
+export function changeScreen(element) {
+  main.innerHTML = ``;
+  main.appendChild(element);
 }

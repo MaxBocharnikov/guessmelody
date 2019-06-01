@@ -1,4 +1,4 @@
-import {render} from "./utils";
+import {render} from './utils';
 const template = `
   <section class="main main--level main--level-genre">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -78,7 +78,7 @@ const template = `
           <label class="genre-answer-check" for="a-4"></label>
         </div>
 
-        <button class="genre-answer-send" type="submit">Ответить</button>
+        <button class="genre-answer-send" disabled="disabled" type="submit">Ответить</button>
       </form>
     </div>
   </section>`;
