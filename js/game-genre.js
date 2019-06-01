@@ -82,5 +82,6 @@ const template = `
       </form>
     </div>
   </section>`;
+
 const gameGenre = render(template);
 export default gameGenre;

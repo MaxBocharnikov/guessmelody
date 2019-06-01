@@ -1,4 +1,4 @@
-import {changeScreen} from "./utils";
+import {randomNumber, changeScreen} from "./utils";
 import welcome from "./welcome";
 import gameGenre from "./game-genre";
 import gameArtist from "./game-artist";
@@ -25,6 +25,15 @@ const welcomeHandler = () => {
   });
 };
 
+const resetAllCheckboxes = () => {
+  const checkboxes = document.querySelectorAll(`input[type=checkbox]`);
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      checkbox.checked = false;
+    }
+  });
+};
+
 const gameGenreHandler = () => {
   const form = document.querySelector(`.genre`);
   const submit = document.querySelector(`.genre-answer-send`);
@@ -44,16 +53,30 @@ const gameArtistHandler = () => {
   const answers = document.querySelectorAll(`input[type=radio]`);
   answers.forEach((answer) => {
     answer.addEventListener(`click`, () => {
-      changeScreen(resultSuccess);
+      const random = randomNumber(1, 3);
+      switch (random) {
+        case 1:
+          changeScreen(resultSuccess);
+          break;
+        case 2:
+          changeScreen(failTime);
+          break;
+        case 3:
+          changeScreen(failTries);
+          break;
+      }
+      finishPageHandler();
     });
+  });
+};
+
+const finishPageHandler = () => {
+  const replyGame = document.querySelector(`.main-replay`);
+  replyGame.addEventListener(`click`, () => {
+    changeScreen(gameGenre);
+    resetAllCheckboxes();
   });
 };
 
 changeScreen(welcome);
 welcomeHandler();
-
-
-
-
-
-

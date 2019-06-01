@@ -1,4 +1,4 @@
-import {changeScreen, render} from './utils';
+import {render} from './utils';
 
 const template = `
  <section class="main main--welcome">

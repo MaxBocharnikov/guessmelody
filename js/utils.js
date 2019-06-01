@@ -10,3 +10,6 @@ export function changeScreen(element) {
   main.innerHTML = ``;
   main.appendChild(element);
 }
+
+export const randomNumber = (min, max) => Math.round(Math.random() * (+max - +min) + +min);
+
