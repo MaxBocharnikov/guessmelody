@@ -12,6 +12,8 @@ const mqpacker = require('css-mqpacker');
 const minify = require('gulp-csso');
 const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
+const mocha = require(`gulp-mocha`);                // Добавим установленный gulp-mocha плагин
+const commonjs = require(`rollup-plugin-commonjs`); // Добавим плагин для работы с `commonjs` модулями
 
 const sourcemaps = require(`gulp-sourcemaps`);
 
@@ -47,8 +49,17 @@ gulp.task('scripts', function () {
     .pipe(gulp.dest(`build/js`));
 });
 
-
-gulp.task('test', function () {
+gulp.task(`test`, function () {
+  return gulp
+    .src([`js/test/test.js`])
+    .pipe(rollup({
+      plugins: [
+        commonjs()           // Сообщает Rollup, что модули можно загружать из node_modules
+      ]}, `cjs`))            // Выходной формат тестов — `CommonJS` модуль
+    .pipe(gulp.dest(`build/test`))
+    .pipe(mocha({
+      reporter: `spec`       // Вид в котором я хочу отображать результаты тестирования
+    }));
 });
 
 gulp.task('imagemin', ['copy'], function () {
@@ -74,6 +85,7 @@ gulp.task('copy', ['copy-html', 'scripts', 'style'], function () {
   ], {base: '.'})
     .pipe(gulp.dest('build'));
 });
+
 
 
 gulp.task('clean', function () {
