@@ -17,6 +17,7 @@ const commonjs = require(`rollup-plugin-commonjs`); // Добавим плаги
 
 const sourcemaps = require(`gulp-sourcemaps`);
 
+
 gulp.task('style', function () {
   return gulp.src('sass/style.scss')
     .pipe(plumber())
@@ -51,7 +52,7 @@ gulp.task('scripts', function () {
 
 gulp.task(`test`, function () {
   return gulp
-    .src([`js/test/test.js`])
+    .src([`js/test.js`])
     .pipe(rollup({
       plugins: [
         commonjs()           // Сообщает Rollup, что модули можно загружать из node_modules
